@@ -1,6 +1,7 @@
 import pygame
 import os
 import time
+# import RPi.GPIO as GPIO
 
 # Initialisiere Pygame
 pygame.init()
@@ -16,6 +17,7 @@ image_dir = "resources/images"
 # Liste der Bilder im Verzeichnis
 image_files = os.listdir(image_dir)
 image_files = [file for file in image_files if file.endswith(('.bmp'))]
+image_files = sorted(image_files)
 
 # Lade die Bilder
 images = []
@@ -33,6 +35,13 @@ space_press_count = 0
 # Zeitpunkt des letzten Tastendrucks
 last_keypress_time = time.time()
 
+# # GPIO Pin für die Steuerung
+# GPIO_PIN = 2
+#
+# # GPIO initialisieren
+# GPIO.setmode(GPIO.BCM)
+# GPIO.setup(GPIO_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+
 # Hauptprogrammschleife
 running = True
 while running:
@@ -44,6 +53,7 @@ while running:
             if event.key == pygame.K_ESCAPE:
                 running = False
             elif event.key == pygame.K_SPACE:
+            # elif event.key == pygame.K_SPACE or GPIO.input(GPIO_PIN) == GPIO.LOW:
                 space_press_count += 1
                 if space_press_count >= 10:
                     # Wenn 10 Mal die Leertaste gedrückt wurde, zeige das nächste Bild an
@@ -68,4 +78,5 @@ while running:
     pygame.display.flip()
 
 # Pygame beenden
+# GPIO.cleanup()
 pygame.quit()

@@ -4,3 +4,6 @@ install:
 
 start:
 	python main.py
+
+sync:
+	rsync -r . admin@cqc.local:/home/admin/game
