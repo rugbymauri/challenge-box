@@ -15,7 +15,7 @@ image_dir = "resources/images"
 
 # Liste der Bilder im Verzeichnis
 image_files = os.listdir(image_dir)
-image_files = [file for file in image_files if file.endswith(('.jpg', '.png', '.jpeg'))]
+image_files = [file for file in image_files if file.endswith(('.bmp'))]
 
 # Lade die Bilder
 images = []
@@ -25,6 +25,10 @@ for img in image_files:
 
 # Index des aktuellen Bildes
 current_image = 0
+
+
+# Zähler für die Anzahl der Leertastendrücke
+space_press_count = 0
 
 # Zeitpunkt des letzten Tastendrucks
 last_keypress_time = time.time()
@@ -39,10 +43,13 @@ while running:
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
                 running = False
-            elif event.key == pygame.K_RIGHT:
-                # Nächstes Bild anzeigen
-                current_image = min(current_image + 1, len(images) - 1)
-                last_keypress_time = time.time()
+            elif event.key == pygame.K_SPACE:
+                space_press_count += 1
+                if space_press_count >= 10:
+                    # Wenn 10 Mal die Leertaste gedrückt wurde, zeige das nächste Bild an
+                    current_image = min(current_image + 1, len(images) - 1)
+                    last_keypress_time = time.time()
+                    space_press_count = 0  # Zähler zurücksetzen
 
     # Überprüfe, ob 30 Sekunden vergangen sind
     if time.time() - last_keypress_time > 5:
